@@ -10,9 +10,8 @@ public class Tests
     }
 
     [Test]
-    public void Check_If_UserData_Is_Correct()
+    public void CheckIfUserDataIsCorrect()
     {
-        // data
         string name = "robert";
         string surname = "addams";
         string email = "abc";
@@ -20,38 +19,16 @@ public class Tests
         int id = 1;
         var service = new UserService();
         
-        // service call
-        bool isUserAdded = service.AddUser(name, surname, email, birth, id);
-        
-        //assert
-        Assert.AreEqual(false, isUserAdded);
-    }
+        Assert.Throws<Exception>(() => service.AddUser(name, surname, email, birth, id), "Given data is incorrect. Please review it");
 
-    [Test]
-    public void Check_If_User_Name_Is_Correct()
-    {
-        //for empty name
-        string emptyName = "";
-        string surname = "addams";
-        string email = "abc@gmail.com";
-        DateTime birth = new DateTime(1995, 12, 25);
-        int id = 1;
-        var service = new UserService();
+        name = "";
+        email = "abc@gmail.com";
         
-        // service call
-        bool isUserAddedWithEmptyName = service.AddUser(emptyName, surname, email, birth, id);
+        Assert.Throws<Exception>(() => service.AddUser(name, surname, email, birth, id), "User is not allowed to open an account");
+
+        name = "julia";
+        surname = "";
         
-        //assert
-        Assert.AreEqual(false, isUserAddedWithEmptyName);
-        
-        // for empty surmane
-        string name = "alice";
-        string emptySurname = "";
-        
-        // service call
-        bool isUserAddedWithEmptySurname = service.AddUser(name, emptyName, email, birth, id);
-        
-        //assert
-        Assert.AreEqual(false, isUserAddedWithEmptySurname);
+        Assert.Throws<Exception>(() => service.AddUser(name, surname, email, birth, id), "Given data is incorrect. Please review it");
     }
 }
